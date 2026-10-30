@@ -9,14 +9,19 @@
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
   font-family: system-ui, -apple-system, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-/* Fallback styling for unstyled links and buttons if classes fail */
+/* Hardcoded layout fixes for the fitness hub */
+header, footer {
+  background-color: #09090b;
+  border-color: #27272a;
+}
+
 a {
   color: #d4af37;
   text-decoration: none;
@@ -25,8 +30,12 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Fix broken icon spacing */
-svg {
-  display: inline-block;
-  vertical-align: middle;
+/* Fix grid layouts if Tailwind classes fail */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
