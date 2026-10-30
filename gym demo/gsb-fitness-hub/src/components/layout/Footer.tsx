@@ -58,7 +58,7 @@ export default function Footer() {
       </div>
       
       <div className="max-w-[1600px] mx-auto px-6 pt-8 border-t border-zinc-800/50 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] uppercase tracking-[0.2em] font-medium text-zinc-600">
-        <span>© {new Date().getFullYear()} GSB Academy / Fitness Verse. All Rights Reserved.</span>
+        <span>© 2026 GSB Academy / Fitness Verse. All Rights Reserved.</span>
         <span>Developed by Tapecut Studios (Demo)</span>
       </div>
     </footer>
