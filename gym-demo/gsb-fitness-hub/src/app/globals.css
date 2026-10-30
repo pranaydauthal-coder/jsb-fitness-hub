@@ -17,7 +17,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Scrollbar for a premium feel */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -32,7 +31,6 @@ body {
   background: #d4af37;
 }
 
-/* Base image utility to prevent rendering issues */
 img {
   pointer-events: none;
 }
