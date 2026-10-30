@@ -1,88 +1,70 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { Search, ShoppingCart, Menu, X, ShieldCheck } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
-const smoothEase = [0.16, 1, 0.3, 1] as const;
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Store & Courses", href: "/store" },
+  { name: "IBS Clinic", href: "/ibs-clinic" },
+  { name: "Profile", href: "/profile" },
+  { name: "Admin (Only Admin Could See)", href: "/admin" },
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const closeMenu = () => setMobileMenuOpen(false);
-
-  const NavLinks = () => (
-    <>
-      <Link href="/" onClick={closeMenu} className="text-xs font-bold uppercase tracking-widest text-zinc-300 hover:text-[#d4af37] transition-colors">Home</Link>
-      <Link href="/store" onClick={closeMenu} className="text-xs font-bold uppercase tracking-widest text-zinc-300 hover:text-[#d4af37] transition-colors">Store & Courses</Link>
-      <Link href="/ibs-clinic" onClick={closeMenu} className="text-xs font-bold uppercase tracking-widest text-zinc-300 hover:text-[#d4af37] transition-colors">IBS Clinic</Link>
-      <Link href="/contact" onClick={closeMenu} className="text-xs font-bold uppercase tracking-widest text-zinc-300 hover:text-[#d4af37] transition-colors">Contact Us</Link>
-    </>
-  );
+  const pathname = usePathname();
 
   return (
-    <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? "bg-[#09090b]/90 backdrop-blur-md border-b border-zinc-800/50 py-4" : "bg-transparent py-6"}`}>
-        <div className="max-w-[1600px] mx-auto px-6 flex items-center justify-between">
-          
-          {/* Logo */}
-          <Link href="/" onClick={closeMenu} className="flex flex-col">
-            <span className="text-2xl font-bold tracking-tighter text-[#d4af37] leading-none uppercase">GSB Academy</span>
-            <span className="text-[10px] font-medium tracking-[0.3em] text-zinc-500 uppercase mt-1">Fitness Verse</span>
-          </Link>
-          
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-8">
-            <NavLinks />
-          </div>
+    <motion.header 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 left-0 w-full z-50 bg-[#050505]/70 backdrop-blur-2xl border-b border-white/5"
+    >
+      <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-5 md:py-0 md:h-24 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-0">
+        
+        {/* Elite Typography Logo */}
+        <Link href="/" className="flex flex-col items-center md:items-start group w-full md:w-auto">
+          <span className="text-xl md:text-2xl font-black tracking-tighter text-[#d4af37] leading-none group-hover:text-white transition-colors duration-500">
+            GSB ACADEMY
+          </span>
+          <span className="text-[7px] md:text-[9px] uppercase tracking-[0.4em] text-zinc-500 mt-1.5">
+            Fitness Verse
+          </span>
+        </Link>
 
-          {/* Icons & Admin */}
-          <div className="hidden lg:flex items-center gap-6">
-            <button className="text-zinc-300 hover:text-[#d4af37] transition-colors"><Search size={18} /></button>
-            <Link href="/store" className="text-zinc-300 hover:text-[#d4af37] transition-colors"><ShoppingCart size={18} /></Link>
-            <div className="w-[1px] h-4 bg-zinc-800" />
-            <Link href="/admin" className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-zinc-950 bg-[#d4af37] px-4 py-2 hover:bg-white transition-colors">
-              <ShieldCheck size={14} /> Admin
-            </Link>
-          </div>
-
-          {/* Mobile Toggle */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-zinc-300 hover:text-[#d4af37] transition-colors z-50">
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: smoothEase }}
-            className="fixed inset-0 z-40 bg-[#09090b]/95 backdrop-blur-2xl pt-32 px-6 flex flex-col h-[100dvh]"
-          >
-            <div className="flex flex-col gap-8 mb-auto">
-              <NavLinks />
-            </div>
-            
-            <div className="flex flex-col gap-4 mb-12">
-              <Link href="/admin" onClick={closeMenu} className="w-full py-4 bg-[#d4af37] text-zinc-950 font-bold text-center uppercase tracking-widest text-xs flex items-center justify-center gap-2">
-                <ShieldCheck size={16} /> Operations Dashboard
+        {/* Always-Expanded Tactical Navigation */}
+        <nav className="flex items-center justify-start md:justify-center gap-6 md:gap-10 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 px-2 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link 
+                key={link.name} 
+                href={link.href}
+                className="relative flex flex-col items-center justify-center py-2 group whitespace-nowrap"
+              >
+                <span 
+                  className={`text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-500 ${
+                    isActive ? "text-white" : "text-zinc-500 group-hover:text-[#d4af37]"
+                  }`}
+                >
+                  {link.name}
+                </span>
+                
+                {isActive && (
+                  <motion.div 
+                    layoutId="activeNavIndicator"
+                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                    className="absolute -bottom-1 md:-bottom-2 w-1.5 h-1.5 bg-[#d4af37] rounded-full shadow-[0_0_10px_#d4af37]"
+                  />
+                )}
               </Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            );
+          })}
+        </nav>
+        
+      </div>
+    </motion.header>
   );
 }
