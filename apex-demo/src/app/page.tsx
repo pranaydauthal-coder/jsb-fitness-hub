@@ -1,380 +1,271 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Activity, ArrowRight, Shield, Zap, Cpu, Terminal, Check, Star, Fingerprint, Search } from "lucide-react";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Award, Heart, Cpu, Sparkles, MoveRight } from "lucide-react";
+import Link from "next/link";
+import { useRef } from "react";
 
-export default function DemoPage() {
-  const [currentYear, setCurrentYear] = useState(2026);
+// Premium Apple-style easing
+const smoothEase = [0.16, 1, 0.3, 1] as const;
 
-  useEffect(() => {
-    setCurrentYear(new Date().getFullYear());
-  }, []);
+export default function Home() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <main className="min-h-screen bg-neutral-950 font-sans selection:bg-cyan-500/30 text-gray-100 overflow-x-hidden">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Activity size={24} className="text-cyan-400" />
-            <span className="text-xl font-bold tracking-widest uppercase">Apex</span>
-          </div>
-          
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a href="#procedures" className="hover:text-white transition-colors">Procedures</a>
-            <a href="#architecture" className="hover:text-white transition-colors">Architecture</a>
-            <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-            <a href="#logs" className="hover:text-white transition-colors">Logs</a>
-          </div>
-
-          <button className="px-5 py-2.5 bg-cyan-500 text-black text-sm font-bold rounded-lg hover:bg-cyan-400 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.3)]">
-            Initialize Connect
-          </button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
-          <div className="flex flex-col items-start text-left">
+    <main className="min-h-screen bg-[#FAFAFA] font-sans text-slate-900 selection:bg-blue-200 overflow-hidden" ref={containerRef}>
+      <Navbar />
+      
+      {/* 1. EDITORIAL HERO SECTION */}
+      <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 px-6 max-w-screen-2xl mx-auto flex flex-col items-center">
+        {/* Abstract organic glow instead of a rigid circle */}
+        <div className="absolute top-0 right-1/4 w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] bg-gradient-to-br from-blue-100/40 to-transparent blur-[100px] rounded-full mix-blend-multiply pointer-events-none" />
+        
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center z-10">
+          <div className="lg:col-span-7 flex flex-col items-start pr-4 md:pr-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-gray-400 mb-8"
+              transition={{ duration: 0.8, ease: smoothEase }}
+              className="mb-8 flex items-center gap-3"
             >
-              <Terminal size={14} className="text-cyan-400" />
-              <span className="text-xs font-mono tracking-wide">STATUS: SYSTEMS ONLINE</span>
+              <div className="w-12 h-[1px] bg-blue-600" />
+              <span className="text-sm font-semibold tracking-widest uppercase text-blue-600">Periodontology & Aesthetic Design</span>
             </motion.div>
 
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter mb-6"
+              transition={{ duration: 1, ease: smoothEase, delay: 0.1 }}
+              className="text-6xl md:text-7xl lg:text-8xl font-medium tracking-tighter mb-8 text-slate-900 leading-[1.05]"
             >
-              Dental <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
-                Hardware.
-              </span>
+              Dr. Kriti's <br />
+              <span className="text-slate-400 italic font-light">Dental Studio.</span>
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-gray-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: smoothEase, delay: 0.2 }}
+              className="text-slate-500 text-lg md:text-xl max-w-xl mb-12 leading-relaxed font-light text-balance"
             >
-              Precision-engineered oral architecture. Leveraging AI diagnostics, sub-micron milling, and pain-free extraction protocols to refactor your smile.
+              Dr. Kriti Banerjee is an experienced dentist with a Master's in Periodontology. She is committed to providing personalized care to her clients, and keeping her practice up-to-date with the latest research and technology in the field.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.3 }}
-              className="flex flex-wrap gap-4"
+              transition={{ duration: 1, ease: smoothEase, delay: 0.3 }}
             >
-              <button className="group inline-flex items-center gap-2 px-8 py-4 bg-gray-100 text-black font-bold rounded-lg hover:bg-white transition-colors">
-                Deploy Consultation
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-              </button>
-              <button className="inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-neutral-800 font-bold rounded-lg hover:bg-neutral-900 transition-colors">
-                View Architecture
-              </button>
+              <Link href="/contact" className="group relative inline-flex items-center gap-4 px-10 py-5 bg-slate-900 text-white overflow-hidden rounded-full transition-all hover:scale-105 duration-300">
+                <span className="absolute inset-0 bg-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out" />
+                <span className="relative z-10 font-medium tracking-wide">Book a Consult</span>
+                <ArrowRight className="relative z-10 group-hover:translate-x-2 transition-transform duration-500" size={18} />
+              </Link>
             </motion.div>
           </div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative h-[450px] w-full hidden lg:flex flex-col justify-end border border-neutral-800 bg-neutral-900/50 rounded-2xl p-6 overflow-hidden shadow-2xl"
+            initial={{ opacity: 0, clipPath: "inset(10% 10% 10% 10% round 30px)" }}
+            animate={{ opacity: 1, clipPath: "inset(0% 0% 0% 0% round 30px)" }}
+            transition={{ duration: 1.5, ease: smoothEase, delay: 0.1 }}
+            className="lg:col-span-5 relative h-[60vh] min-h-[500px] w-full"
+            style={{ y, opacity }}
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-500/0 via-cyan-500/50 to-cyan-500/0" />
-            <div className="font-mono text-sm text-cyan-500/70 flex flex-col gap-3">
-              <p>{`> Initializing 3D CBCT scan... [OK]`}</p>
-              <p>{`> Loading bio-metrics......... [OK]`}</p>
-              <p>{`> Mapping veneer architecture.`}</p>
-              <motion.div
-                animate={{ opacity: [0.2, 1, 0.2] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-                className="mt-6 grid grid-cols-4 gap-2 opacity-50"
-              >
-                {[...Array(12)].map((_, i) => (
-                  <div key={i} className="h-8 bg-neutral-800 rounded-sm border border-neutral-700" />
-                ))}
-              </motion.div>
-            </div>
+            {/* Elegant Image Reveal - No thick borders or drop shadows */}
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center" />
+            <div className="absolute inset-0 bg-slate-900/10 mix-blend-overlay" />
           </motion.div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="procedures" className="py-24 px-6 max-w-7xl mx-auto border-t border-neutral-800">
-        <div className="mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Core Procedures</h2>
-          <p className="text-gray-400 max-w-2xl text-sm leading-relaxed">
-            Standardized modules designed for optimal oral health. Every procedure is logged, tracked, and executed with robotic precision.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            { title: "Laser Whitening", desc: "Instant brightness scaling using sub-zero targeted photon emissions. Zero enamel degradation.", icon: Zap },
-            { title: "Veneer Architecture", desc: "Micro-precision porcelain structuring layered for a flawless UI layout.", icon: Shield },
-            { title: "AI Diagnostics", desc: "Machine learning algorithms scan your radiographs to detect micro-fractures.", icon: Cpu },
-            { title: "Bio-Implants", desc: "Titanium root anchoring seamlessly integrated with your jawbone API for permanent stability.", icon: Fingerprint },
-            { title: "Deep Profiling", desc: "Comprehensive periodontal scraping and root planing to remove legacy plaque buildup.", icon: Search },
-            { title: "Emergency Patch", desc: "Immediate runtime fixes for sudden trauma, pain, or hardware failure.", icon: Activity },
-          ].map((svc, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: i * 0.1, duration: 0.4 }}
-              className="p-8 rounded-xl bg-neutral-900/30 border border-neutral-800 hover:border-cyan-500/30 hover:bg-neutral-900/80 transition-all group"
-            >
-              <div className="w-12 h-12 rounded-lg bg-neutral-800 flex items-center justify-center text-cyan-400 mb-6 group-hover:bg-cyan-500/10 transition-colors">
-                <svc.icon size={24} />
-              </div>
-              <h3 className="text-lg font-bold mb-2">{svc.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{svc.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Architecture / About Section */}
-      <section id="architecture" className="py-24 px-6 max-w-7xl mx-auto border-t border-neutral-800">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-              Infrastructure & <span className="text-cyan-400">Architecture</span>
-            </h2>
-            <div className="space-y-6 text-gray-400 text-sm leading-relaxed">
-              <p>
-                We abandoned the legacy "dental clinic" model. Apex operates as a high-performance bio-engineering lab. Your oral health is treated as a complex, interconnected system requiring continuous integration and deployment of preventative measures.
-              </p>
-              <p>
-                Our backend utilizes CBCT (Cone Beam Computed Tomography) rendering your jaw structure in 3D space, allowing us to simulate procedures before execution. No guesswork, no runtime errors.
-              </p>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { metric: "12ms", label: "Scan Response Time" },
-              { metric: "< 5μm", label: "Implant Margin Error" },
-              { metric: "100%", label: "Uptime (Pain-Free)" },
-              { metric: "3D", label: "Volumetric Rendering" },
-            ].map((pt, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+      {/* 2. WHY CHOOSE US (ASYMMETRICAL STICKY SCROLL - Looks very high-end) */}
+      <section className="py-32 px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+          <div className="lg:w-1/3">
+            <div className="sticky top-32">
+              <motion.h2 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-neutral-900 border border-neutral-800 p-6 rounded-lg flex flex-col justify-center"
+                transition={{ duration: 0.8, ease: smoothEase }}
+                className="text-4xl md:text-5xl font-medium tracking-tight text-slate-900 mb-6"
               >
-                <span className="text-3xl font-mono font-bold mb-1">{pt.metric}</span>
-                <span className="text-xs text-gray-500 uppercase tracking-widest">{pt.label}</span>
+                Why Choose <br />Dr. Kriti Banerjee
+              </motion.h2>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="w-full h-[1px] bg-slate-200"
+              />
+            </div>
+          </div>
+
+          <div className="lg:w-2/3 flex flex-col">
+            {[
+              { title: "Expertise", icon: Award, desc: "Reputed Periodontist and skilled at General Dental procedures such as Aesthetic Dental restorations and Painless tooth removal." },
+              { title: "Philosophy", icon: Heart, desc: "We aim at making the dental office a safe space for you to get treated at affordable rates without compromising on quality." },
+              { title: "Technology", icon: Cpu, desc: "Equipped with Digital x-rays, Rotary endodontics, the best dental material brands and a great lab." },
+            ].map((item, i) => (
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, ease: smoothEase, delay: i * 0.1 }}
+                className="group border-b border-slate-200 py-12 lg:py-16 first:pt-0 flex flex-col md:flex-row gap-6 md:gap-12"
+              >
+                <div className="md:w-1/3 flex flex-col gap-4">
+                  <item.icon size={32} strokeWidth={1} className="text-blue-600" />
+                  <h3 className="text-2xl font-medium text-slate-900">{item.title}</h3>
+                </div>
+                <div className="md:w-2/3">
+                  <p className="text-slate-500 text-lg leading-relaxed font-light">{item.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Tiers */}
-      <section id="pricing" className="py-24 px-6 max-w-7xl mx-auto border-t border-neutral-800">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Service Tiers</h2>
-          <p className="text-gray-400 text-sm">Transparent resource allocation. No hidden compile fees.</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              name: "Base Build",
-              price: "$199",
-              period: "/mo",
-              desc: "Continuous integration for standard oral health.",
-              features: ["Bi-annual Deep Scans", "Automated Plaque Removal", "24/7 Priority Support", "Standard Whitening Protocol"],
-              highlight: false,
-            },
-            {
-              name: "Veneer Pro",
-              price: "$899",
-              period: "/tooth",
-              desc: "Complete front-end aesthetic overhaul.",
-              features: ["Custom Porcelain Architecture", "3D Bite Simulation", "Color-Matched Shading", "Lifetime Margin Warranty"],
-              highlight: true,
-            },
-            {
-              name: "Implant Enterprise",
-              price: "$2,499",
-              period: "/unit",
-              desc: "Full stack hardware replacement.",
-              features: ["Titanium Root Anchoring", "CBCT Guided Surgery", "Same-Day Temporary Load", "Bio-Compatible Crown"],
-              highlight: false,
-            },
-          ].map((tier, i) => (
-            <motion.div
-              key={i}
+      {/* 3. SERVICES (OPEN BROCHURE STYLE) */}
+      <section className="py-32 bg-slate-900 text-white rounded-t-[3rem] lg:rounded-t-[5rem]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24">
+            <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`relative p-8 rounded-xl border flex flex-col ${
-                tier.highlight 
-                  ? "bg-neutral-900 border-cyan-500/50 shadow-[0_0_30px_rgba(6,182,212,0.1)]" 
-                  : "bg-neutral-900/30 border-neutral-800"
-              }`}
+              transition={{ duration: 0.8, ease: smoothEase }}
+              className="max-w-3xl"
             >
-              {tier.highlight && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cyan-500 text-black text-xs font-bold px-3 py-1 rounded-full">
-                  MOST POPULAR
-                </div>
-              )}
-              <h3 className="text-lg font-semibold mb-2">{tier.name}</h3>
-              <p className="text-sm text-gray-400 mb-6 min-h-[40px]">{tier.desc}</p>
-              <div className="mb-8">
-                <span className="text-4xl font-bold">{tier.price}</span>
-                <span className="text-gray-500 text-sm">{tier.period}</span>
+              <h2 className="text-4xl md:text-6xl font-medium tracking-tight mb-8">All dental services<br /><span className="text-slate-500 font-light">under one roof.</span></h2>
+              <p className="text-slate-400 text-xl font-light leading-relaxed text-balance">
+                We have a panel of specialists associated with our clinic. All services are performed with utmost care to sterilization protocols and using the best materials available.
+              </p>
+            </motion.div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* General */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: smoothEase }}
+            >
+              <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-800">
+                <span className="text-blue-500 font-mono text-sm tracking-widest">01 /</span>
+                <h3 className="text-3xl font-medium">General & Surgical</h3>
               </div>
-              
-              <ul className="space-y-4 flex-grow mb-8 text-sm">
-                {tier.features.map((feat, idx) => (
-                  <li key={idx} className="flex items-center gap-3 text-gray-300">
-                    <Check size={16} className="text-cyan-400 shrink-0" />
-                    <span>{feat}</span>
+              <ul className="flex flex-col gap-6">
+                {[
+                  "Dental cleaning and polishing", 
+                  "Tooth extraction / Wisdom tooth", 
+                  "Root Canal Treatment", 
+                  "Child Dentistry / Paediatric", 
+                  "Dental Crowns / Bridges / Dentures"
+                ].map((item, i) => (
+                  <li key={i} className="group flex items-center justify-between cursor-pointer">
+                    <span className="text-xl text-slate-300 font-light group-hover:text-white transition-colors duration-300">{item}</span>
+                    <MoveRight className="text-slate-700 group-hover:text-blue-500 -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500" />
                   </li>
                 ))}
               </ul>
-
-              <button className={`w-full py-3 rounded-lg text-sm font-bold transition-colors ${
-                tier.highlight 
-                  ? "bg-cyan-500 text-black hover:bg-cyan-400" 
-                  : "bg-neutral-800 hover:bg-neutral-700"
-              }`}>
-                Initialize Plan
-              </button>
             </motion.div>
-          ))}
-        </div>
-      </section>
 
-      {/* Logs (Testimonials) */}
-      <section id="logs" className="py-24 px-6 max-w-7xl mx-auto border-t border-neutral-800">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            System Output: <span className="text-gray-400">Client Logs</span>
-          </h2>
-          <p className="text-sm text-gray-500 font-mono">Total successful executions: 14,092</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              id: "LOG-992",
-              name: "Alex M.",
-              role: "Software Engineer",
-              text: "The extraction felt like a background process. No pain, zero downtime. The 3D scanning tech they use is incredible. Compiled perfectly.",
-            },
-            {
-              id: "LOG-104",
-              name: "Sarah K.",
-              role: "Product Designer",
-              text: "Veneers installed with absolute pixel-perfection. The attention to detail here rivals top-tier UI design. Aesthetic score: 100.",
-            },
-            {
-              id: "LOG-883",
-              name: "James L.",
-              role: "Data Analyst",
-              text: "Fast, efficient, and completely data-driven diagnostics. They showed me my exact bite architecture on a monitor before executing.",
-            },
-          ].map((rev, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
+            {/* Cosmetic */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="border border-neutral-800 rounded-lg p-6 bg-neutral-900/50 flex flex-col hover:border-neutral-700 transition-colors"
+              transition={{ duration: 0.8, ease: smoothEase, delay: 0.2 }}
             >
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex gap-1 text-gray-400">
-                  {[...Array(5)].map((_, idx) => (
-                    <Star key={idx} size={14} fill="currentColor" />
-                  ))}
-                </div>
-                <span className="text-xs font-mono text-neutral-600">{rev.id}</span>
+              <div className="flex items-center gap-4 mb-10 pb-6 border-b border-slate-800">
+                <span className="text-blue-500 font-mono text-sm tracking-widest">02 /</span>
+                <h3 className="text-3xl font-medium">Cosmetic Dentistry</h3>
               </div>
-              <p className="text-gray-400 mb-6 text-sm leading-relaxed flex-grow">
-                "{rev.text}"
+              <ul className="flex flex-col gap-6">
+                {[
+                  "Teeth Whitening", 
+                  "Smile Design and Veneers", 
+                  "Porcelain crowns", 
+                  "Braces and Aligners", 
+                  "Dental Implants"
+                ].map((item, i) => (
+                  <li key={i} className="group flex items-center justify-between cursor-pointer">
+                    <span className="text-xl text-slate-300 font-light group-hover:text-white transition-colors duration-300">{item}</span>
+                    <MoveRight className="text-slate-700 group-hover:text-blue-500 -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500" />
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. TESTIMONIALS (MASONRY/FREE-FLOWING LOOK) */}
+      <section className="py-32 px-6 max-w-7xl mx-auto">
+        <div className="flex flex-col items-center text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: smoothEase }}
+            className="w-16 h-16 bg-blue-50 flex items-center justify-center rounded-full mb-8"
+          >
+            <Sparkles className="text-blue-600" size={24} strokeWidth={1.5} />
+          </motion.div>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: smoothEase, delay: 0.1 }}
+            className="text-4xl md:text-5xl font-medium tracking-tight text-slate-900 mb-6"
+          >
+            Patient Stories
+          </motion.h2>
+          <p className="text-lg text-slate-500 font-light tracking-wide uppercase text-sm">Direct feedback from our clients</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+          {[
+            { name: "Priya Sharma", text: "I got my scaling done from here, she is very polite and was very careful. I didn't feel any pain or discomfort and her charges are very affordable. I would recommend her as your go to dentist." },
+            { name: "Manish Kumar", text: "Dr. Kriti is very caring and polite. From the first day got the relief from toothache. Extraction process was hassle-free. A very good Dental service in the locality with reasonable charges." },
+            { name: "Shaurya Jain", text: "First thing first Dr. Kriti is very caring and professional. She will answer all your queries and makes you feel like a friend instead like some scary dentist. Jokes apart I had a very good experience with her." }
+          ].map((rev, i) => (
+            <motion.div 
+              key={i} 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 1, ease: smoothEase, delay: i * 0.15 }}
+              className="relative flex flex-col group"
+            >
+              {/* Very subtle styling, letting typography breathe */}
+              <div className="text-6xl text-slate-200 font-serif leading-none absolute -top-8 -left-4 z-0 group-hover:text-blue-100 transition-colors duration-500">"</div>
+              <p className="text-slate-600 text-lg leading-relaxed font-light mb-8 relative z-10">
+                {rev.text}
               </p>
-              <div>
-                <div className="font-bold">{rev.name}</div>
-                <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">
-                  {rev.role}
-                </div>
+              <div className="mt-auto pt-6 border-t border-slate-200">
+                <div className="font-medium text-slate-900 tracking-wide uppercase text-sm">{rev.name}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* Full Footer */}
-      <footer className="w-full border-t border-neutral-800 bg-neutral-950 py-16 px-6">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Activity size={24} className="text-cyan-400" />
-              <span className="text-xl font-bold tracking-widest uppercase">Apex</span>
-            </div>
-            <p className="text-gray-400 max-w-sm text-sm leading-relaxed">
-              High-performance dental architecture. Built for those who demand precision, efficiency, and zero downtime. Headquartered in the cloud, operating locally.
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <h4 className="font-semibold tracking-wider text-sm uppercase text-white">Protocols</h4>
-            <nav className="flex flex-col gap-3">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Laser Alignment</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Implant Architecture</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Routine Diagnostics</a>
-            </nav>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <h4 className="font-semibold tracking-wider text-sm uppercase text-white">System</h4>
-            <nav className="flex flex-col gap-3">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Client Portal</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">API Docs</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Status (100%)</a>
-            </nav>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            © {currentYear} Apex Dental Architecture. All modules secured.
-          </p>
-          <div className="flex gap-6">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Terms of Service</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }
